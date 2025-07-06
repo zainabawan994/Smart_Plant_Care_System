@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RootAlert</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+         <div class="container">
+            <h1 class="logo" style="display:flex;align-items:center;gap:12px;font-family:'Andalucia',serif;">
+                <i class="fas fa-seedling" style="color:#388e3c;font-size:2.2rem;"></i>
+                RootAlert
+            </h1>
+            <nav class="navbar" style="font-size:1.25rem; font-weight:bold;">
+                <a href="index.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="remainder.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-bell"></i> Reminders
+                </a>
+                <a href="care tips.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-book"></i> Care Tips
+                </a>
+                <a href="#" id="chatNavLink" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+                <div id="userProfile" style="display:inline-flex;align-items:center;gap:8px;margin-left:auto;position:relative;cursor:pointer;">
+                    <i class="fas fa-user-circle"></i> <span id="usernameDisplay">Guest</span>
+                    <div id="profileMenu" style="display:none;position:absolute;top:120%;right:0;background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 2px 8px #0001;min-width:120px;z-index:1000;">
+                        <a href="logout.php" style="display:block;padding:10px 18px;color:#388e3c;text-decoration:none;font-weight:normal;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="reminder-form-section">
+        <div class="container">
+            <h2>Create a New Plant Care Reminder</h2>
+            <p>Fill out the form below to set up personalized care reminders for your plant.</p>
+            
+            <form action="submit_reminder.php" method="POST" class="reminder-form">
+                <div class="form-group">
+                    <label for="plant-name">Plant Name</label>
+                    <input type="text" id="plant-name" name="plant_name" placeholder="e.g. Monstera Deliciosa" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reminder-date">First Reminder Date</label>
+                    <input type="date" id="reminder-date" name="reminder_date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reminder-time">Reminder Time</label>
+                    <input type="time" id="reminder-time" name="reminder-time" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Watering Frequency</label>
+                    <div class="frequency-options">
+                        <div class="frequency-option">
+                            <input type="radio" id="daily" name="frequency" value="daily" checked>
+                            <label for="daily">Daily</label>
+                        </div>
+                        <div class="frequency-option">
+                            <input type="radio" id="weekly" name="frequency" value="weekly">
+                            <label for="weekly">Weekly</label>
+                        </div>
+                        <div class="frequency-option">
+                            <input type="radio" id="biweekly" name="frequency" value="biweekly">
+                            <label for="biweekly">Every 2 Weeks</label>
+                        </div>
+                        <div class="frequency-option">
+                            <input type="radio" id="monthly" name="frequency" value="monthly">
+                            <label for="monthly">Monthly</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Times Per Day (if daily)</label>
+                    <div class="times-per-day">
+                        <select id="times-per-day" name="times-per-day">
+                            <option value="1">1 time</option>
+                            <option value="2">2 times</option>
+                            <option value="3">3 times</option>
+                            <option value="4">4 times</option>
+                            <option value="5">5 times</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group file-upload">
+                    <label for="plant-photo" class="upload-btn">
+                        <i class="fas fa-camera"></i> Choose Photo
+                        <input type="file" id="plant-photo" name="plant-photo" accept="image/*" style="display:none;">
+                    </label>
+                </div>
+                
+                <div class="form-group message-group">
+                    <label for="notes">Additional Notes</label>
+                    <i class="fas fa-comment-dots message-icon"></i>
+                    <textarea id="notes" name="notes" rows="4" placeholder="Any special care instructions..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn submit-btn ">
+                    <i class="fas fa-bell"></i> Set Reminder
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+             <p> RootAlert. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+// Alarm sound (local d1.wav file)
+const alarmSoundUrl = 'd1.wav';
+
+function playAlarm() {
+    const audio = new Audio(alarmSoundUrl);
+    audio.play();
+}
+
+function showAlarmAlert(plantName) {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'alarm-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.background = 'rgba(0,0,0,0.7)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = 9999;
+
+    // Create alarm box
+    const box = document.createElement('div');
+    box.style.background = '#fff';
+    box.style.padding = '2rem 3rem';
+    box.style.borderRadius = '20px';
+    box.style.boxShadow = '0 8px 32px rgba(0,0,0,0.25)';
+    box.style.textAlign = 'center';
+    box.style.position = 'relative';
+    box.style.maxWidth = '90vw';
+
+    // Alarm icon
+    const icon = document.createElement('i');
+    icon.className = 'fas fa-bell';
+    icon.style.fontSize = '3rem';
+    icon.style.color = '#4CAF50';
+    box.appendChild(icon);
+
+    // Title
+    const title = document.createElement('h2');
+    title.textContent = 'Watering Time!';
+    title.style.margin = '1rem 0 0.5rem 0';
+    box.appendChild(title);
+
+    // Plant name
+    const plant = document.createElement('p');
+    plant.textContent = `It\'s time to water your plant: ${plantName}`;
+    plant.style.fontSize = '1.2rem';
+    plant.style.marginBottom = '1.5rem';
+    box.appendChild(plant);
+
+    // Dismiss button
+    const btn = document.createElement('button');
+    btn.textContent = 'Dismiss';
+    btn.style.background = '#4CAF50';
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+    btn.style.padding = '0.7rem 2rem';
+    btn.style.fontSize = '1rem';
+    btn.style.borderRadius = '8px';
+    btn.style.cursor = 'pointer';
+    btn.onclick = () => document.body.removeChild(overlay);
+    box.appendChild(btn);
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
+// Example: Set alarm for a specific time (simulate with 10 seconds for demo)
+function setWateringAlarm(plantName, alarmTime) {
+    const now = new Date();
+    const timeToAlarm = alarmTime.getTime() - now.getTime();
+    if (timeToAlarm > 0) {
+        setTimeout(() => {
+            playAlarm();
+            showAlarmAlert(plantName);
+        }, timeToAlarm);
+    }
+}
+
+// DEMO: Replace this with actual reminder time from backend/database
+// For demo, set alarm 10 seconds from now for plant 'Monstera Deliciosa'
+window.addEventListener('DOMContentLoaded', async () => {
+    // Fetch reminders for the current user from the backend
+    const res = await fetch('get_reminders.php');
+    if (!res.ok) return;
+    const reminders = await res.json();
+    if (!Array.isArray(reminders)) return;
+    const now = new Date();
+    reminders.forEach(reminder => {
+        if (!reminder.reminder_date || !reminder.reminder_time) return;
+        // Parse date and time correctly (ensure time is in HH:MM or HH:MM:SS format)
+        let dateStr = reminder.reminder_date;
+        let timeStr = reminder.reminder_time;
+        // If time is missing seconds, add :00
+        if (/^\d{2}:\d{2}$/.test(timeStr)) timeStr += ':00';
+        // Combine date and time in local time (YYYY-MM-DDTHH:MM:SS)
+        // Use split to avoid timezone issues
+        const [year, month, day] = dateStr.split('-');
+        const [hour, minute, second] = timeStr.split(':');
+        const alarmTime = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day),
+            Number(hour),
+            Number(minute),
+            Number(second)
+        );
+        if (alarmTime > now) {
+            setTimeout(() => {
+                playAlarm();
+                showAlarmAlert(reminder.plant_name || 'Your Plant');
+            }, alarmTime.getTime() - now.getTime());
+        }
+    });
+});
+
+const chatNavLink = document.getElementById('chatNavLink');
+if (chatNavLink) {
+    chatNavLink.onclick = function(e) {
+        e.preventDefault();
+        fetch('auth_check.php').then(r => {
+            if (r.status === 200) {
+                window.location.href = 'redirect.php';
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+    };
+}
+
+// Profile submenu logic
+const userProfile = document.getElementById('userProfile');
+const profileMenu = document.getElementById('profileMenu');
+userProfile.onclick = function(e) {
+    e.stopPropagation();
+    profileMenu.style.display = (profileMenu.style.display === 'block') ? 'none' : 'block';
+};
+document.body.onclick = function() {
+    profileMenu.style.display = 'none';
+};
+
+// Fetch username for profile display
+fetch('auth_check.php').then(async r => {
+    if (r.status === 200) {
+        // Try to get username from a new endpoint
+        const res = await fetch('get_username.php');
+        if (res.ok) {
+            const data = await res.json();
+            if (data.username) {
+                document.getElementById('usernameDisplay').textContent = data.username;
+            } else {
+                document.getElementById('usernameDisplay').textContent = 'User';
+            }
+        } else {
+            document.getElementById('usernameDisplay').textContent = 'User';
+        }
+    }
+});
+</script>
+</body>
+</html>
