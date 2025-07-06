@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Reminder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Set a Plant Care Reminder</h1>
+    </header>
+    <main>
+        <form id="reminderForm" action="submit_reminder.php" method="POST">
+            <label for="plantName">Plant Name:</label>
+            <input type="text" id="plantName" name="plant_name" required>
+
+            <label for="reminderDate">Reminder Date:</label>
+            <input type="date" id="reminderDate" name="reminder_date" required>
+
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes"></textarea>
+
+            <button type="submit">Set Reminder</button>
+        </form>
+    </main>
+</body>
+</html>

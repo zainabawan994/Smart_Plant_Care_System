@@ -1,0 +1,38 @@
+<?php
+// home.html PHP wrapper for login protection
+session_start();
+if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
+    header('Location: login.html');
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <!-- Add your CSS and JavaScript links here -->
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Home Page</h1>
+        <!-- Add navigation links or other header content here -->
+        <nav>
+            <a href="index.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <!-- Add other navigation links here -->
+        </nav>
+    </header>
+    <main>
+        <h2>Hello, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+        <p>Your role: <?php echo htmlspecialchars($_SESSION['role']); ?></p>
+        <!-- Add the main content of the home page here -->
+    </main>
+    <footer>
+        <p>&copy; <?php echo date("Y"); ?> Your Website. All rights reserved.</p>
+        <!-- Add footer content here -->
+    </footer>
+</body>
+</html>

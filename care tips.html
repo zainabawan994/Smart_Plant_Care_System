@@ -1,0 +1,343 @@
+<?php
+// care tips.html PHP wrapper for login protection
+session_start();
+if (!isset($_SESSION['username']) || !isset($_SESSION['role'])) {
+    header('Location: login.html');
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RootAlert</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="care.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+     <header>
+        <div class="container">
+            <h1 class="logo" style="display:flex;align-items:center;gap:12px;font-family:'Andalucia',serif;">
+                <i class="fas fa-seedling" style="color:#388e3c;font-size:2.2rem;"></i>
+                RootAlert
+            </h1>
+            <nav class="navbar" style="font-size:1.25rem; font-weight:bold;">
+                <a href="index.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="remainder.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-bell"></i> Reminders
+                </a>
+                <a href="care tips.html" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-book"></i> Care Tips
+                </a>
+                <a href="#" id="chatNavLink" class="nav-link" style="display:inline-flex;align-items:center;gap:8px;margin-right:18px;">
+                    <i class="fas fa-comments"></i> Chat
+                </a>
+                <div id="userProfile" style="display:inline-flex;align-items:center;gap:8px;margin-left:auto;position:relative;cursor:pointer;">
+                    <i class="fas fa-user-circle"></i> <span id="usernameDisplay">Guest</span>
+                    <div id="profileMenu" style="display:none;position:absolute;top:120%;right:0;background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 2px 8px #0001;min-width:120px;z-index:1000;">
+                        <a href="logout.php" style="display:block;padding:10px 18px;color:#388e3c;text-decoration:none;font-weight:normal;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="care-intro">
+        <div class="container">
+            <h2>Plant Care Guides</h2>
+            <p>Learn how to keep your plants healthy and thriving with our expert care tips. Select a plant below to view detailed care instructions.</p>
+            
+        </div>
+    </section>
+
+    <section class="plant-cards">
+        <div class="container">
+            <!-- Monstera Card -->
+            <div class="plant-card" data-care="easy" data-light="medium">
+                <div class="plant-image" style="background-image: url('https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Monstera Deliciosa</h3>
+                    <div class="plant-meta">
+                        <span class="care-level easy">Easy</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Medium Light</span>
+                    </div>
+                    <p class="plant-description">Known for its beautiful split leaves, this tropical plant makes a statement in any room.</p>
+                    
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> Every 1-2 weeks, allow soil to dry between waterings</li>
+                        <li><strong>Light:</strong> Bright, indirect light</li>
+                        <li><strong>Humidity:</strong> Prefers higher humidity</li>
+                        <li><strong>Tip:</strong> Wipe leaves with damp cloth to keep them dust-free</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Yellow leaves - overwatering</li>
+                        <li>Brown edges - low humidity</li>
+                        <li>Small leaves - needs more light</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Snake Plant Card -->
+            <div class="plant-card" data-care="easy" data-light="low">
+                <div class="plant-image" style="background-image: url('snake-plant-white-pot.jpg');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Snake Plant</h3>
+                    <div class="plant-meta">
+                        <span class="care-level easy">Easy</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Low Light</span>
+                    </div>
+                    <p class="plant-description">Nearly indestructible with tall, architectural leaves that purify the air.</p>
+                    
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> Every 2-3 weeks, very drought tolerant</li>
+                        <li><strong>Light:</strong> Thrives in low to bright indirect light</li>
+                        <li><strong>Humidity:</strong> Tolerates dry air well</li>
+                        <li><strong>Tip:</strong> Better to underwater than overwater</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Mushy leaves - overwatering</li>
+                        <li>Wrinkled leaves - needs water</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Fiddle Leaf Fig Card -->
+            <div class="plant-card" data-care="moderate" data-light="bright">
+                <div class="plant-image" style="background-image: url('kira-laktionov-LfUpLeM2BSk-unsplash.jpg');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Fiddle Leaf Fig</h3>
+                    <div class="plant-meta">
+                        <span class="care-level moderate">Moderate</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Bright Light</span>
+                    </div>
+                    <p class="plant-description">A trendy tree with large, violin-shaped leaves that loves consistent care.</p>
+                    
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> When top 2 inches of soil are dry</li>
+                        <li><strong>Light:</strong> Bright, indirect light (east-facing window ideal)</li>
+                        <li><strong>Humidity:</strong> Appreciates occasional misting</li>
+                        <li><strong>Tip:</strong> Rotate plant regularly for even growth</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Leaf drop - sudden environmental change</li>
+                        <li>Brown spots - inconsistent watering</li>
+                        <li>Small leaves - needs more light</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Orchid Card -->
+            <div class="plant-card" data-care="difficult" data-light="medium">
+                <div class="plant-image" style="background-image: url('https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Phalaenopsis Orchid</h3>
+                    <div class="plant-meta">
+                        <span class="care-level difficult">Difficult</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Medium Light</span>
+                    </div>
+                    <p class="plant-description">Elegant flowering plant that requires specific care but rewards with stunning blooms.</p>
+                    
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> Weekly with ice cubes or room temp water</li>
+                        <li><strong>Light:</strong> Bright, indirect light (east window ideal)</li>
+                        <li><strong>Humidity:</strong> 50-70% humidity preferred</li>
+                        <li><strong>Tip:</strong> Water in morning to prevent crown rot</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Wrinkled leaves - underwatering</li>
+                        <li>Yellow leaves - too much light or overwatering</li>
+                        <li>No blooms - needs fertilizer or temperature drop</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="plant-card" data-care="difficult" data-light="medium">
+                <div class="plant-image" style="background-image: url('telopea.speciosissima01.jpg');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Australian Waratah</h3>
+                    <div class="plant-meta">
+                        <span class="care-level difficult">Difficult</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Medium Light</span>
+                    </div>
+                    <p class="plant-description">Elegant flowering plant that requires specific care but rewards with stunning blooms.</p>
+                   
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> Weekly with ice cubes or room temp water</li>
+                        <li><strong>Light:</strong> Bright, indirect light (east window ideal)</li>
+                        <li><strong>Humidity:</strong> 50-70% humidity preferred</li>
+                        <li><strong>Tip:</strong> Water in morning to prevent crown rot</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Wrinkled leaves - underwatering</li>
+                        <li>Yellow leaves - too much light or overwatering</li>
+                        <li>No blooms - needs fertilizer or temperature drop</li>
+                    </ul>
+                </div>
+            </div>
+        <div class="plant-card" data-care="difficult" data-light="medium">
+                <div class="plant-image" style="background-image: url('Leonardo_Phoenix_10_A_serene_and_vibrant_peace_lily_plant_with_3.jpg');">
+                    <span class="favorite"><i class="far fa-heart"></i></span>
+                </div>
+                <div class="plant-info">
+                    <h3>Peace lily</h3>
+                    <div class="plant-meta">
+                        <span class="care-level difficult">Difficult</span>
+                        <span class="light-requirement"><i class="fas fa-sun"></i> Medium Light</span>
+                    </div>
+                    <p class="plant-description">Elegant flowering plant that requires specific care but rewards with stunning blooms.</p>
+                    
+                </div>
+                <div class="plant-details">
+                    <h4>Care Tips</h4>
+                    <ul>
+                        <li><strong>Water:</strong> Weekly with ice cubes or room temp water</li>
+                        <li><strong>Light:</strong> Bright, indirect light (east window ideal)</li>
+                        <li><strong>Humidity:</strong> 50-70% humidity preferred</li>
+                        <li><strong>Tip:</strong> Water in morning to prevent crown rot</li>
+                    </ul>
+                    <h4>Common Issues</h4>
+                    <ul>
+                        <li>Wrinkled leaves - underwatering</li>
+                        <li>Yellow leaves - too much light or overwatering</li>
+                        <li>No blooms - needs fertilizer or temperature drop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <section class="general-tips">
+        <div class="container">
+            <h2>General Plant Care Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-tint"></i>
+                    <h3>Watering Wisdom</h3>
+                    <ul>
+                        <li>Check soil moisture before watering</li>
+                        <li>Most plants prefer thorough watering then drying out</li>
+                        <li>Use room temperature water</li>
+                        <li>Water less in winter when growth slows</li>
+                    </ul>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-sun"></i>
+                    <h3>Light Requirements</h3>
+                    <ul>
+                        <li>Rotate plants for even growth</li>
+                        <li>Watch for leaf scorch (too much light)</li>
+                        <li>Leggy growth indicates need for more light</li>
+                        <li>Adjust gradually to new light conditions</li>
+                    </ul>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-spray-can"></i>
+                    <h3>Humidity Help</h3>
+                    <ul>
+                        <li>Group plants to create humid microclimate</li>
+                        <li>Use pebble trays with water</li>
+                        <li>Mist in morning so leaves dry by night</li>
+                        <li>Consider humidifier for tropical plants</li>
+                    </ul>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-seedling"></i>
+                    <h3>Feeding Fundamentals</h3>
+                    <ul>
+                        <li>Fertilize during active growth (spring/summer)</li>
+                        <li>Dilute fertilizer to half strength</li>
+                        <li>Flush soil occasionally to prevent salt buildup</li>
+                        <li>Different plants have different nutrient needs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+             <p> RootAlert. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script>
+        const chatNavLink = document.getElementById('chatNavLink');
+        if (chatNavLink) {
+            chatNavLink.onclick = function(e) {
+                e.preventDefault();
+                fetch('auth_check.php').then(r => {
+                    if (r.status === 200) {
+                        window.location.href = 'redirect.php';
+                    } else {
+                        window.location.href = 'login.html';
+                    }
+                });
+            };
+        }
+
+        // Profile submenu logic
+        const userProfile = document.getElementById('userProfile');
+        const profileMenu = document.getElementById('profileMenu');
+        userProfile.onclick = function(e) {
+            e.stopPropagation();
+            profileMenu.style.display = (profileMenu.style.display === 'block') ? 'none' : 'block';
+        };
+        document.body.onclick = function() {
+            profileMenu.style.display = 'none';
+        };
+
+        // Fetch username for profile display
+        fetch('auth_check.php').then(async r => {
+            if (r.status === 200) {
+                // Try to get username from a new endpoint
+                const res = await fetch('get_username.php');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.username) {
+                        document.getElementById('usernameDisplay').textContent = data.username;
+                    } else {
+                        document.getElementById('usernameDisplay').textContent = 'User';
+                    }
+                } else {
+                    document.getElementById('usernameDisplay').textContent = 'User';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

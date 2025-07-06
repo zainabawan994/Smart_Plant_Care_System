@@ -1,0 +1,227 @@
+/* Care Tips Page Styles */
+.care-intro {
+    text-align: center;
+    padding: 60px 0 30px;
+}
+
+.care-intro h2 {
+    font-size: 2.5rem;
+    color: var(--dark-color);
+    margin-bottom: 15px;
+}
+
+.care-intro p {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    font-size: 1.1rem;
+}
+
+.search-filter {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.search-filter input,
+.search-filter select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.search-filter input {
+    min-width: 250px;
+}
+
+.plant-cards {
+    padding: 40px 0;
+}
+
+.plant-cards .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.plant-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.plant-card:hover {
+    transform: translateY(-5px);
+}
+
+.plant-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.favorite {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+.favorite:hover {
+    color: #ff6b6b;
+    transform: scale(1.1);
+}
+
+.favorite.fas {
+    color: #ff6b6b;
+}
+
+.plant-info {
+    padding: 20px;
+}
+
+.plant-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--dark-color);
+}
+
+.plant-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.care-level {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.care-level.easy {
+    background-color: #e3f9e5;
+    color: var(--dark-color);
+}
+
+.care-level.moderate {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.care-level.difficult {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.light-requirement {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.plant-description {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.view-details {
+    width: 100%;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
+.view-details:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.plant-details {
+    padding: 0 20px 20px;
+    display: none;
+}
+
+.plant-details h4 {
+    margin: 15px 0 10px;
+    color: var(--dark-color);
+}
+
+.plant-details ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.plant-details li {
+    margin-bottom: 5px;
+}
+
+.general-tips {
+    padding: 60px 0;
+    background-color: var(--light-color);
+}
+
+.general-tips h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--dark-color);
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.tip-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.tip-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.tip-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+.tip-card ul {
+    margin-left: 20px;
+}
+
+.tip-card li {
+    margin-bottom: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-filter {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-filter input,
+    .search-filter select {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .plant-cards .container {
+        grid-template-columns: 1fr;
+    }
+}

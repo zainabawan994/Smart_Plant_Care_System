@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care Chat - Login/Register</title>
+    <link rel="stylesheet" href="care.css">
+    <style>
+        body { background: #eafaf1; font-family: 'Segoe UI', sans-serif; }
+        .login-container { max-width: 520px; margin: 80px auto; background: #fff; border-radius: 20px; box-shadow: 0 4px 32px #b2dfdb44; padding: 48px; }
+        .login-container h2 { color: #388e3c; font-size: 2rem; }
+        .tab-btns { display: flex; margin-bottom: 32px; }
+        .tab-btns button { flex: 1; padding: 16px; border: none; background: #c8e6c9; color: #388e3c; font-weight: bold; cursor: pointer; border-radius: 10px 10px 0 0; font-size: 1.1rem; }
+        .tab-btns button.active { background: #388e3c; color: #fff; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #388e3c; font-size: 1.1rem; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #b2dfdb; border-radius: 8px; font-size: 1.1rem; }
+        .submit-btn { width: 100%; background: #388e3c; color: #fff; border: none; padding: 16px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; }
+        .error, .success { color: #d32f2f; margin-bottom: 14px; font-size: 1.05rem; }
+        .success { color: #388e3c; }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Plant Care Chat</h2>
+    <div class="tab-btns">
+        <button id="loginTab" class="active">Login</button>
+        <button id="registerTab">Register</button>
+    </div>
+    <div id="loginForm">
+        <form id="login-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button class="submit-btn" type="submit">Login</button>
+            <div class="error" id="loginError"></div>
+        </form>
+    </div>
+    <div id="registerForm" style="display:none;">
+        <form id="register-form">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label>Register as</label>
+                <select name="role" required>
+                    <option value="client">User</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+            <button class="submit-btn" type="submit">Register</button>
+            <div class="error" id="registerError"></div>
+            <div class="success" id="registerSuccess"></div>
+        </form>
+    </div>
+</div>
+<script>
+// Tab switching
+const loginTab = document.getElementById('loginTab');
+const registerTab = document.getElementById('registerTab');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+loginTab.onclick = () => {
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    loginForm.style.display = '';
+    registerForm.style.display = 'none';
+};
+registerTab.onclick = () => {
+    registerTab.classList.add('active');
+    loginTab.classList.remove('active');
+    registerForm.style.display = '';
+    loginForm.style.display = 'none';
+};
+// Login AJAX
+const loginFormEl = document.getElementById('login-form');
+loginFormEl.onsubmit = async (e) => {
+    e.preventDefault();
+    document.getElementById('loginError').textContent = '';
+    const formData = new FormData(loginFormEl);
+    const res = await fetch('login.php', { method: 'POST', body: formData });
+    const text = await res.text();
+    if (text.trim() === 'success') {
+        // Redirect to index.html after successful login
+        window.location.href = 'index.html';
+    } else {
+        document.getElementById('loginError').textContent = text;
+    }
+};
+// Register AJAX
+const registerFormEl = document.getElementById('register-form');
+registerFormEl.onsubmit = async (e) => {
+    e.preventDefault();
+    document.getElementById('registerError').textContent = '';
+    document.getElementById('registerSuccess').textContent = '';
+    const formData = new FormData(registerFormEl);
+    const res = await fetch('register.php', { method: 'POST', body: formData });
+    const text = await res.text();
+    if (text.trim() === 'success') {
+        document.getElementById('registerSuccess').textContent = 'Registration successful! Redirecting...';
+        setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+    } else {
+        document.getElementById('registerError').textContent = text;
+    }
+};
+// Chat nav link logic
+const chatNavLink = document.getElementById('chatNavLink');
+chatNavLink.onclick = function(e) {
+    e.preventDefault();
+    fetch('auth_check.php').then(r => {
+        if (r.status === 200) {
+            // User is logged in, redirect based on role
+            window.location.href = 'redirect.php';
+        } else {
+            // Not logged in, go to login
+            window.location.href = 'login.html';
+        }
+    });
+};
+</script>
+</body>
+</html>
